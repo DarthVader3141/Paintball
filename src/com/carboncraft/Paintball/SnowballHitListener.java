@@ -43,7 +43,9 @@ public class SnowballHitListener implements Listener {
 		Player target = (Player)event.getEntity();
 		String targetname = (String)target.getName();
 
-		shooter.playSound(shooter.getLocation(), Sound.ARROW_HIT, 1.0f, 1.0f);
+		for ( Sound s : Sound.values()) {
+			shooter.playSound(shooter.getLocation(), s, 1.0f, 1.0f);
+		}
 		
 		shooter.sendMessage(ChatColor.GREEN+"+1 Point! You hit "+(targetname)+".");
 		if (playerController.getPaintballPlayer(shooter) != null) {
