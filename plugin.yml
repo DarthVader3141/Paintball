@@ -1,0 +1,25 @@
+name: Paintball
+main: com.carboncraft.Paintball.Paintball
+version: 0.1
+
+commands:
+  armor:
+    description:
+    usage: /armor
+    permission: Paintball.armor
+    permission-message: DENIED!
+  score:
+    description:
+    usage: /score
+    permission: Paintball.score
+    permission-message: Fail!
+  setpbspawn:
+    description:
+    usage: /setpbspawn
+    permission: Paintball.setspawn
+    permission-message: Fail!
+  broadcast:
+        description:
+        usage: /broadcast
+        permission: Paintball.broadcast
+        permission-message: DENIED!

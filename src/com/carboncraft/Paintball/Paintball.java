@@ -1,0 +1,128 @@
+package com.carboncraft.Paintball;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Logger;
+
+import org.bukkit.event.Listener;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+
+public class Paintball extends JavaPlugin implements Listener {
+	
+	private Location pbSpawn;
+	private Logger log; //declares instance variable log
+	private PaintballPlayerController playerController;
+	
+	@Override
+	public void onEnable() {
+		log = getLogger();//puts getLogger in "log"
+		log.info("Initializing Paintball Plugin");
+		playerController = new PaintballPlayerController();
+		getServer().getPluginManager().registerEvents(new MyFirstPluginPlayerJoinListener(this, playerController), this);
+		getServer().getPluginManager().registerEvents(new SnowballHitListener(playerController), this);
+		getServer().getPluginManager().registerEvents(new InventoryListener(this, playerController), this);
+		getServer().getPluginManager().registerEvents(new BuildListener(), this);
+		getServer().getPluginManager().registerEvents(new WeaponUsage(playerController), this);
+	}
+	
+	@Override
+	public void onDisable() {
+		getLogger().info("Deinitializing Paintball Plugin");
+	}
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (!(sender instanceof Player)) {
+			return false;
+		}
+		
+		if (cmd.getName().equalsIgnoreCase("armor")) {
+			Player player = (Player)sender;
+			ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+			LeatherArmorMeta chestmeta = (LeatherArmorMeta)chestplate.getItemMeta();
+			chestmeta.setColor(playerController.getPaintballPlayer(player).getTeam().getArmorColor());
+			chestplate.setItemMeta(chestmeta);
+			player.getInventory().setChestplate(chestplate);
+		}
+		
+		else if (cmd.getName().equalsIgnoreCase("score")) {
+			Player player = (Player)sender;
+			int pts = playerController.getPaintballPlayer(player).getPoints();
+			if (pts <= 0){
+				player.sendMessage(ChatColor.YELLOW+"You have 0 points.");
+		}
+			else player.sendMessage(ChatColor.YELLOW+"You have "+Integer.toString(pts)+" points.");
+		}
+		
+		else if (cmd.getName().equalsIgnoreCase("setpbspawn")) {
+			Player player = (Player)sender;
+			player.sendMessage(ChatColor.YELLOW+"Spawnpoint set");
+			pbSpawn = player.getLocation();
+			double xcoord = pbSpawn.getX();
+			double ycoord = pbSpawn.getY();
+			double zcoord = pbSpawn.getZ();
+			logToFile(Double.toString(xcoord));
+			logToFile(Double.toString(ycoord));
+			logToFile(Double.toString(zcoord));
+			
+		}
+		
+		else if (cmd.getName().equalsIgnoreCase("broadcast")){
+			org.bukkit.Bukkit.broadcastMessage("Troll");
+		}
+		return true;
+	}
+	
+	public Location getPbSpawn() {
+		return pbSpawn;
+	}
+
+	public void logToFile(String message)
+	
+	{
+
+		try
+		{
+			File dataFolder = getDataFolder();
+			if(!dataFolder.exists())
+			{
+				dataFolder.mkdir();
+			}
+
+			File saveTo = new File(getDataFolder(), "data.txt");
+			if (!saveTo.exists())
+			{
+				saveTo.createNewFile();
+			}
+
+
+			FileWriter fw = new FileWriter(saveTo, true);
+
+			PrintWriter pw = new PrintWriter(fw);
+
+			pw.println(message);
+
+			pw.flush();
+
+			pw.close();
+
+		} catch (IOException e)
+		{
+
+			e.printStackTrace();
+
+		}
+	}
+	
+	
+}
