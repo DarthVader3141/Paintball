@@ -1,5 +1,6 @@
 package com.carboncraft.Paintball;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +25,9 @@ public class InventoryListener implements Listener{
 	
 	@EventHandler (priority = EventPriority.NORMAL)
 	public void PreventMeddling (InventoryClickEvent event) {
-		event.setCancelled(true);
+		if (event.getWhoClicked().getGameMode() != GameMode.CREATIVE) {
+			event.setCancelled(true);
+		}
 	}
 	
 	@EventHandler (priority = EventPriority.NORMAL)
