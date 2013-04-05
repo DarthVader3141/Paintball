@@ -51,10 +51,9 @@ public class InventoryListener implements Listener{
 		chestplate.setItemMeta(chestmeta);
 		player.getInventory().setChestplate(chestplate);
 		
-		try {
-			player.teleport(plugin.getPbSpawn());
+		if (plugin.getPbSpawn() != null) {
+			event.setRespawnLocation(plugin.getPbSpawn());
 		}
-		catch (NullPointerException e) { }
 		
 	}
 	

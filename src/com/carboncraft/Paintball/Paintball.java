@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class Paintball extends JavaPlugin implements Listener {
@@ -27,12 +28,13 @@ public class Paintball extends JavaPlugin implements Listener {
 	public void onEnable() {
 		log = getLogger();//puts getLogger in "log"
 		log.info("Initializing Paintball Plugin");
-		playerController = new PaintballPlayerController();
-		getServer().getPluginManager().registerEvents(new MyFirstPluginPlayerJoinListener(this, playerController), this);
-		getServer().getPluginManager().registerEvents(new SnowballHitListener(playerController), this);
-		getServer().getPluginManager().registerEvents(new InventoryListener(this, playerController), this);
-		getServer().getPluginManager().registerEvents(new BuildListener(), this);
-		getServer().getPluginManager().registerEvents(new WeaponUsage(playerController), this);
+		playerController = new PaintballPlayerController(this);
+		Server server = getServer();
+		server.getPluginManager().registerEvents(new MyFirstPluginPlayerJoinListener(this, playerController), this);
+		server.getPluginManager().registerEvents(new SnowballHitListener(playerController, log), this);
+		server.getPluginManager().registerEvents(new InventoryListener(this, playerController), this);
+		server.getPluginManager().registerEvents(new BuildListener(), this);
+		server.getPluginManager().registerEvents(new WeaponUsage(playerController), this);
 	}
 	
 	@Override
@@ -66,11 +68,15 @@ public class Paintball extends JavaPlugin implements Listener {
 		
 		else if (cmd.getName().equalsIgnoreCase("setpbspawn")) {
 			Player player = (Player)sender;
-			player.sendMessage(ChatColor.YELLOW+"Spawnpoint set");
+
 			pbSpawn = player.getLocation();
 			double xcoord = pbSpawn.getX();
 			double ycoord = pbSpawn.getY();
 			double zcoord = pbSpawn.getZ();
+			player.sendMessage(ChatColor.YELLOW+"Spawnpoint set at");
+			player.sendMessage(ChatColor.YELLOW+"x: "+Double.toString(xcoord));
+			player.sendMessage(ChatColor.YELLOW+"y: "+Double.toString(ycoord));
+			player.sendMessage(ChatColor.YELLOW+"z: "+Double.toString(zcoord));
 			logToFile(Double.toString(xcoord));
 			logToFile(Double.toString(ycoord));
 			logToFile(Double.toString(zcoord));

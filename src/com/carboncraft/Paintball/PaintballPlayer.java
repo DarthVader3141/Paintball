@@ -47,4 +47,8 @@ public class PaintballPlayer {
 	public void changeHits(int delta) {
 		hits+=delta;
 	}
+	
+	public void resetHits() {
+		hits = 0;
+	}
 }

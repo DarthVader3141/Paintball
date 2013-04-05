@@ -41,8 +41,7 @@ public class MyFirstPluginPlayerJoinListener implements Listener {
 		try {
 			player.teleport(plugin.getPbSpawn());
 		}
-		catch (NullPointerException e) { }
-		
+		catch (NullPointerException e) { }	
 	}
 	
 }

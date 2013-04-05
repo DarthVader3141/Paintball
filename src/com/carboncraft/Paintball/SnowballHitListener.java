@@ -1,5 +1,7 @@
 package com.carboncraft.Paintball;
 
+import java.util.logging.Logger;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -12,8 +14,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 public class SnowballHitListener implements Listener {
 	
 	private PaintballPlayerController playerController;
+	private Logger log;
 	
-	public SnowballHitListener(PaintballPlayerController pc) {
+	public SnowballHitListener(PaintballPlayerController pc, Logger log) {
+		this.log = log;
 		this.playerController = pc;
 	}
 	
@@ -39,13 +43,25 @@ public class SnowballHitListener implements Listener {
 		String targetname = (String)target.getName();
 		
 		shooter.sendMessage(ChatColor.GREEN+"+1 Point! You hit "+(targetname)+".");
-		playerController.getPaintballPlayer(shooter).changePoints(1);
+		if (playerController.getPaintballPlayer(shooter) != null) {
+			playerController.getPaintballPlayer(shooter).changePoints(1);
+			log.info("Changed points successfully.");
+		}
+		else {
+			log.warning("null player returned for: "+shooter.toString()+" @"+shooter.hashCode());
+			log.warning("Dump of hashmap: "+playerController.data.keySet().toString());
+		}
+		
+		target.setDisplayName(ChatColor.RED+"LOLLOL");
+		target.setCustomName(ChatColor.GOLD+"JDSADD");
+		target.setCustomNameVisible(true);
 		
 		target.sendMessage(ChatColor.RED+"-1 Point! You were hit by "+(shootername)+".");
 		playerController.getPaintballPlayer(target).changePoints(-1);
 		playerController.getPaintballPlayer(target).changeHits(1);
 		if (playerController.getPaintballPlayer(target).getHits() >= 3) {
-			target.damage(100);
+			target.setHealth(0);
+			playerController.getPaintballPlayer(target).resetHits();
 		}
 	}
 
