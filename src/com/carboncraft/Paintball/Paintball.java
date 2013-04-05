@@ -79,6 +79,8 @@ public class Paintball extends JavaPlugin implements Listener {
 		
 		else if (cmd.getName().equalsIgnoreCase("broadcast")){
 			org.bukkit.Bukkit.broadcastMessage("Troll");
+			Player target=(Player)sender;
+			target.damage(5);
 		}
 		return true;
 	}
