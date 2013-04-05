@@ -42,7 +42,7 @@ public class PaintballPlayer {
 	
 	public int getHits() {
 		return hits;
-		}
+	}
 	
 	public void changeHits(int delta) {
 		hits+=delta;
