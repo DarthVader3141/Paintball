@@ -2,15 +2,20 @@ package com.carboncraft.Paintball;
 
 import java.util.logging.Logger;
 
+import net.minecraft.server.v1_5_R2.Packet62NamedSoundEffect;
+import net.minecraft.server.v1_5_R2.Packet70Bed;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.Sound;
 
 public class SnowballHitListener implements Listener {
 	
@@ -25,7 +30,7 @@ public class SnowballHitListener implements Listener {
 	@EventHandler (priority = EventPriority.NORMAL)
 	public void MessageOnHit (EntityDamageByEntityEvent event) {
 		Entity damager = event.getDamager();
-		if (!(damager instanceof Projectile)) {
+		if (!(damager instanceof Snowball)) {
 			return;
 		}
 		
@@ -34,6 +39,7 @@ public class SnowballHitListener implements Listener {
 			return;
 		}
 		
+				
 		if (!((event.getEntity()) instanceof Player)){
 			return;
 		}
@@ -42,10 +48,11 @@ public class SnowballHitListener implements Listener {
 		String shootername = (String)shooter.getName();
 		Player target = (Player)event.getEntity();
 		String targetname = (String)target.getName();
-
-		for ( Sound s : Sound.values()) {
-			shooter.playSound(shooter.getLocation(), s, 1.0f, 1.0f);
-		}
+		
+		//Location p = shooter.getLocation();
+		//Packet62NamedSoundEffect soundPacket = new Packet62NamedSoundEffect("random.successful_hit", p.getX(), p.getY(), p.getZ(), 0.18f, 0.45f);
+		Packet70Bed hitEventPacket = new Packet70Bed(6, 0); //Notify the client that it hit a player - to play sound effect without naming the sound in the server code
+		((CraftPlayer) shooter).getHandle().playerConnection.sendPacket(hitEventPacket);
 		
 		shooter.sendMessage(ChatColor.GREEN+"+1 Point! You hit "+(targetname)+".");
 		if (playerController.getPaintballPlayer(shooter) != null) {
