@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.Sound;
 
 public class SnowballHitListener implements Listener {
 	
@@ -41,6 +42,8 @@ public class SnowballHitListener implements Listener {
 		String shootername = (String)shooter.getName();
 		Player target = (Player)event.getEntity();
 		String targetname = (String)target.getName();
+
+		shooter.playSound(shooter.getLocation(), Sound.ARROW_HIT, 1.0f, 1.0f);
 		
 		shooter.sendMessage(ChatColor.GREEN+"+1 Point! You hit "+(targetname)+".");
 		if (playerController.getPaintballPlayer(shooter) != null) {
@@ -51,10 +54,6 @@ public class SnowballHitListener implements Listener {
 			log.warning("null player returned for: "+shooter.toString()+" @"+shooter.hashCode());
 			log.warning("Dump of hashmap: "+playerController.data.keySet().toString());
 		}
-		
-		target.setDisplayName(ChatColor.RED+"LOLLOL");
-		target.setCustomName(ChatColor.GOLD+"JDSADD");
-		target.setCustomNameVisible(true);
 		
 		target.sendMessage(ChatColor.RED+"-1 Point! You were hit by "+(shootername)+".");
 		playerController.getPaintballPlayer(target).changePoints(-1);
