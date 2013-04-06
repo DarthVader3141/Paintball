@@ -36,6 +36,7 @@ public class Paintball extends JavaPlugin implements Listener {
 		server.getPluginManager().registerEvents(new BuildListener(), this);
 		server.getPluginManager().registerEvents(new WeaponUsage(playerController), this);
 		server.getPluginManager().registerEvents(new HealthRegenPrevention(), this);
+		server.getPluginManager().registerEvents(new EggHitListener(playerController), this);
 	}
 	
 	@Override
@@ -101,21 +102,18 @@ public class Paintball extends JavaPlugin implements Listener {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			org.bukkit.Bukkit.broadcastMessage(ChatColor.YELLOW+"2");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			org.bukkit.Bukkit.broadcastMessage(ChatColor.GOLD+"1");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			org.bukkit.Bukkit.broadcastMessage(ChatColor.RED+"GO");

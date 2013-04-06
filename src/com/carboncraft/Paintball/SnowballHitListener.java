@@ -33,12 +33,13 @@ public class SnowballHitListener implements Listener {
 	@EventHandler (priority = EventPriority.NORMAL)
 	public void MessageOnHit (EntityDamageByEntityEvent event) {
 		Entity damager = event.getDamager();
-				
-		if (!((event.getEntity()) instanceof Player)){
-			if (event.getEntity() instanceof ItemFrame) {
+		
+		if (event.getEntity() instanceof ItemFrame) {
 				event.setCancelled(true);
-			}
-			return;
+		}
+			
+		if (!((event.getEntity()) instanceof Player)){
+			
 		}
 		
 		if (!(damager instanceof Snowball)) {
