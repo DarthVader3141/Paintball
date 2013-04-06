@@ -2,11 +2,11 @@ package com.carboncraft.Paintball;
 
 import java.util.logging.Logger;
 
-import net.minecraft.server.v1_5_R2.Packet62NamedSoundEffect;
 import net.minecraft.server.v1_5_R2.Packet70Bed;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
@@ -17,6 +17,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public class SnowballHitListener implements Listener {
 	
@@ -71,10 +73,41 @@ public class SnowballHitListener implements Listener {
 		target.sendMessage(ChatColor.RED+"-1 Point! You were hit by "+(shootername)+".");
 		playerController.getPaintballPlayer(target).changePoints(-1);
 		playerController.getPaintballPlayer(target).changeHits(1);
-		if (playerController.getPaintballPlayer(target).getHits() >= 3) {
-			target.setHealth(0);
-			playerController.getPaintballPlayer(target).resetHits();
+		
+		ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
+		LeatherArmorMeta helmetmeta = (LeatherArmorMeta)helmet.getItemMeta();
+		int hits = (playerController.getPaintballPlayer(target).getHits());
+		if (hits == 0) {
+			
+			helmetmeta.setColor(Color.GREEN);
 		}
-	}
+		
+		else if (hits == 1) {
+			
+			helmetmeta.setColor(Color.YELLOW);
+		}
+		
+		else if (hits == 2) {
+			
+			helmetmeta.setColor(Color.ORANGE);
+		}
+		
+		else if (hits == 3) {
+			
+			helmetmeta.setColor(Color.RED);
+		}
+		
+		else {
+			return;
+		}
+		
+		helmet.setItemMeta(helmetmeta);
+		target.getInventory().setHelmet(helmet);
 
+		int health = 20 - (playerController.getPaintballPlayer(target).getHits()*5);
+		target.setHealth(health);
+		
+	}
 }
+
+

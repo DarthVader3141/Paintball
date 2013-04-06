@@ -1,5 +1,6 @@
 package com.carboncraft.Paintball;
 
+import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -53,6 +54,12 @@ public class InventoryListener implements Listener{
 		chestmeta.setColor(playerController.getPaintballPlayer(player).getTeam().getArmorColor());
 		chestplate.setItemMeta(chestmeta);
 		player.getInventory().setChestplate(chestplate);
+		
+		ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
+		LeatherArmorMeta helmetmeta = (LeatherArmorMeta)helmet.getItemMeta();
+		helmetmeta.setColor(Color.GREEN);
+		helmet.setItemMeta(helmetmeta);
+		player.getInventory().setHelmet(helmet);
 		
 		if (plugin.getPbSpawn() != null) {
 			event.setRespawnLocation(plugin.getPbSpawn());
