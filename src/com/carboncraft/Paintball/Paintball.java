@@ -95,6 +95,31 @@ public class Paintball extends JavaPlugin implements Listener {
 			int hits = playerController.getPaintballPlayer(target).getHits();
 			target.sendMessage(Integer.toString(hits));
 		}
+		
+		else if (cmd.getName().equalsIgnoreCase("countdown")){
+			org.bukkit.Bukkit.broadcastMessage(ChatColor.GREEN+"3");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			org.bukkit.Bukkit.broadcastMessage(ChatColor.YELLOW+"2");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			org.bukkit.Bukkit.broadcastMessage(ChatColor.GOLD+"1");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			org.bukkit.Bukkit.broadcastMessage(ChatColor.RED+"GO");
+		}
 		return true;
 	}
 	

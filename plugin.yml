@@ -29,3 +29,9 @@ commands:
         permission: Paintball.hits
         permission-message: DENIED!   
      
+  countdown:
+        description:
+        usage: /countdown
+        permission: Paintball.countdown
+        permission-message: DENIED!   
+     
