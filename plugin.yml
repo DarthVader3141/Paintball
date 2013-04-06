@@ -23,3 +23,9 @@ commands:
         usage: /broadcast
         permission: Paintball.broadcast
         permission-message: DENIED!
+  hits:
+        description:
+        usage: /hits
+        permission: Paintball.hits
+        permission-message: DENIED!   
+     

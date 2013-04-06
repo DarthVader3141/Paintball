@@ -35,6 +35,7 @@ public class Paintball extends JavaPlugin implements Listener {
 		server.getPluginManager().registerEvents(new InventoryListener(this, playerController), this);
 		server.getPluginManager().registerEvents(new BuildListener(), this);
 		server.getPluginManager().registerEvents(new WeaponUsage(playerController), this);
+		server.getPluginManager().registerEvents(new HealthRegenPrevention(), this);
 	}
 	
 	@Override
@@ -87,6 +88,12 @@ public class Paintball extends JavaPlugin implements Listener {
 			org.bukkit.Bukkit.broadcastMessage("Troll");
 			Player target=(Player)sender;
 			target.damage(5);
+		}
+		
+		else if (cmd.getName().equalsIgnoreCase("hits")){
+			Player target=(Player)sender;
+			int hits = playerController.getPaintballPlayer(target).getHits();
+			target.sendMessage(Integer.toString(hits));
 		}
 		return true;
 	}
