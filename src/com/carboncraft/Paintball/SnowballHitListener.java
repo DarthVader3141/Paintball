@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
@@ -30,17 +31,20 @@ public class SnowballHitListener implements Listener {
 	@EventHandler (priority = EventPriority.NORMAL)
 	public void MessageOnHit (EntityDamageByEntityEvent event) {
 		Entity damager = event.getDamager();
+				
+		if (!((event.getEntity()) instanceof Player)){
+			if (event.getEntity() instanceof ItemFrame) {
+				event.setCancelled(true);
+			}
+			return;
+		}
+		
 		if (!(damager instanceof Snowball)) {
 			return;
 		}
 		
 		Projectile snowball = (Projectile)event.getDamager();
 		if (!((Entity)snowball.getShooter() instanceof Player)){
-			return;
-		}
-		
-				
-		if (!((event.getEntity()) instanceof Player)){
 			return;
 		}
 		
