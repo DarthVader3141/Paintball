@@ -97,14 +97,11 @@ public class SnowballHitListener implements Listener {
 			helmetmeta.setColor(Color.RED);
 		}
 		
-		else {
-			return;
-		}
-		
 		helmet.setItemMeta(helmetmeta);
 		target.getInventory().setHelmet(helmet);
 
 		int health = 20 - (playerController.getPaintballPlayer(target).getHits()*5);
+		health = health>0 ? health : 0;
 		target.setHealth(health);
 		
 	}
